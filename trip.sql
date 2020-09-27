@@ -199,3 +199,28 @@ VALUES
     (4, 9), (4, 10),
     (5, 11), (5, 12), (5, 13)
 ;
+
+
+
+INSERT INTO clients(full_name, sex, email, phone) VALUES
+	('SIDOROV ALEXANDER VLADIMIROVITCH', 'male', 'sidr@yandex.ru', '+70001231212');
+
+INSERT INTO clients_documents(client_id, international_passport, local_passport, birth_certificate) VALUES
+    (11, '771277112', '213309AAA', NULL); --11
+
+INSERT INTO trips(cost, begin_date, end_date) VALUES
+	(1000, '2020-11-14', '2021-12-15'); --6
+
+INSERT INTO trip_hotel(trip_id, hotel_id, begin_date, end_date) VALUES
+    (6, 1, '2020-12-01', '2021-07-01'),
+	(6, 5, '2021-07-01', '2021-12-15');
+
+INSERT INTO trip_client(client_id, trip_id) VALUES (11, 6);
+
+INSERT INTO movements(departure_time, departure_address) VALUES
+    ('2020-12-01 19:00:00 +3', 'seremetevo moscow russia'),--14
+    ('2021-07-01 11:00:00 +0', 'sochi adler russia'),--15
+	('2021-12-15 13:00:00 +0', 'madrid spain espania');--16
+
+INSERT INTO trip_movement(trip_id, movement_id) VALUES
+    (6, 14), (6, 15), (6, 16);
