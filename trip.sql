@@ -110,6 +110,23 @@ VALUES
 ;
 
 INSERT INTO
+    clients_documents(client_id, international_passport, local_passport, birth_certificate)
+VALUES
+    (1, '771233112', '213309AAA', NULL),
+    (2, '771233112', NULL, NULL),
+    (3, '643987493', '7898 37483', NULL),
+    (4, '873928638', '3213 12387', NULL),
+    (5, NULL, NULL, 'iwo-82736'),
+    (6, '993928479', '3214 49824', NULL),
+    (7, '070723407', 'OIO932847', NULL),
+    (8, NULL, 'ERY8399Y', NULL),
+    (9, '389879870', NULL, NULL),
+    (10,'923847609','9387 0392847', NULL)
+
+
+;
+
+INSERT INTO
 	hotels(name, address, email, phone)
 VALUES
 	('SPA SOCHI Olypic', 'Sochi, RUSSIA', 'olymp@sochi.ru', '+78881231212'),--1
