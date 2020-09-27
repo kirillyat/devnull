@@ -1,7 +1,9 @@
+--TRIP SQL BILDER
+
 --CLEAR CURRENT DATABASE FOR NEW TABLES AND TYPES
 DROP TABLE IF EXISTS trip_movement;
 DROP TABLE IF EXISTS trip_client;
-DROP TABLE IF EXISTS hotel_trip;
+DROP TABLE IF EXISTS trip_hotel;
 DROP TABLE IF EXISTS trips;
 DROP TABLE IF EXISTS movements;
 DROP TABLE IF EXISTS clients_documents;
@@ -81,32 +83,30 @@ CREATE TABLE hotels (
 );
 
 
-CREATE TABLE hotel_trip (
-    hotel_id integer,
+CREATE TABLE trip_hotel (
     trip_id integer,
+    hotel_id integer,
     begin_date date,
     end_date date CHECK (end_date >= begin_date),
 
     FOREIGN KEY (trip_id) REFERENCES trips(trip_id),
     FOREIGN KEY (hotel_id) REFERENCES hotels(hotel_id)
-
-
 );
 
 
 INSERT INTO
 	clients(full_name, sex, email, phone)
 VALUES
-	('VARLAMOV ILYA OLEGOVITCH', 'male', 'varlamov@lifejornal.ru', '+79990009977'),
-	('KATZ MAXIM ANATOLIEVITCH', 'male', 'maxkatz@apple.ru', '+79990001100'),
-	('IVANOV IVAN IVANOVITCH', 'male', 'ivanov@yandex.ru', '+79991112233'),
-	('IVANOVA IRINA ALEXANDROVNA', 'female', 'iraIvanova@mail.ru', '+79991112244'),
-	('IVANOV MAXIM IVANOVITCH', 'male', 'maxIVAN@gmail.com', '+79990009988'),
-	('LEBEDEV ARTEMIY TATYANICTH', 'male', 'tema@tema.ru', '+77777777777'),
-	('COLUMB CRICTOFOR', 'male', 'open@world.es', '+27777777777'),
-	('YATSENKO KIRILL SERGEEVITCH', 'male', 'kirillyat@yandex.ru', '+79260093757'),
-	('ROBOTIKOV IVAN ALEXANDROVITCH', 'male', 'robot@mail.ru', '+78881231212'),
-	('TUTCHEVA IRINA VLADIMIROVNA', 'female', 'tut@tyt.by', '+68881112233')
+	('VARLAMOV ILYA OLEGOVITCH', 'male', 'varlamov@lifejornal.ru', '+79990009977'),--1
+	('KATZ MAXIM ANATOLIEVITCH', 'male', 'maxkatz@apple.ru', '+79990001100'),--2
+	('IVANOV IVAN IVANOVITCH', 'male', 'ivanov@yandex.ru', '+79991112233'),--3
+	('IVANOVA IRINA ALEXANDROVNA', 'female', 'iraIvanova@mail.ru', '+79991112244'),--4
+	('IVANOV MAXIM IVANOVITCH', 'male', 'maxIVAN@gmail.com', '+79990009988'),--5
+	('LEBEDEV ARTEMIY TATYANICTH', 'male', 'tema@tema.ru', '+77777777777'),--6
+	('COLUMB CRICTOFOR', 'male', 'open@world.es', '+27777777777'),--7
+	('YATSENKO KIRILL SERGEEVITCH', 'male', 'kirillyat@yandex.ru', '+79260093757'),--8
+	('ROBOTIKOV IVAN ALEXANDROVITCH', 'male', 'robot@mail.ru', '+78881231212'),--9
+	('TUTCHEVA IRINA VLADIMIROVNA', 'female', 'tut@tyt.by', '+68881112233')--10
 ;
 
 INSERT INTO
@@ -129,4 +129,56 @@ VALUES
 	(900, '2020-12-12', '2020-12-22'),--3
 	(2200, '2022-02-12', '2022-02-20'),--4
 	(6000, '2021-06-01', '2021-07-01')--5
+;
+
+INSERT INTO
+    trip_hotel(trip_id, hotel_id, begin_date, end_date)
+VALUES
+    (1, 3, '2020-11-14', '2021-01-01'),
+    (1, 2, '2021-01-01', '2021-12-15'),
+    (2, 4, '2020-10-01', '2020-10-10'),
+    (3, 1, '2020-12-12', '2020-12-18'),
+    (3, 5, '2020-12-18', '2020-12-22'),
+    (4, 7, '2022-02-12', '2022-02-20'),
+    (5, 6, '2021-06-01', '2021-06-21'),
+    (5, 4, '2021-06-21', '2021-07-01')
+;
+
+
+INSERT INTO
+    trip_client(client_id, trip_id)
+VALUES
+    (1,3),
+    (1,4), (2,4),
+    (3,1), (4,1), (5,1),
+    (3,2), (5,2),
+    (7,5)
+;
+
+INSERT INTO
+    movements(departure_time, departure_address)
+VALUES
+    ('2020-11-14 09:00:00 +3', 'seremetevo moscow russia'),
+    ('2021-01-01 21:00:00 +0', 'hitrow london UK'),
+    ('2021-12-15 08:30:00 +1', 'orsa paris france'),
+    ('2020-10-01 18:30:00 +7', 'omsk airport russia'),
+    ('2020-10-10 06:30:00 +3', 'seremetevo moscow russia'),
+    ('2020-12-12 08:30:00 +1', 'pulkovo sankt piterburg'),
+    ('2020-12-18 20:30:00 +5', 'sochi adler airport russia'),
+    ('2020-12-22 20:00:00 +9', 'railway cantrale Madrid, SPAIN'),
+    ('2022-02-12 10:30:00 +6', 'san-francisco center bus station usa'),
+    ('2022-02-20 18:10:00 +4', 'las-vegas shattel bus stop#12 usa'),
+    ('2021-06-01 08:10:00 +3', 'orsa paris france'),
+    ('2021-06-21 23:50:00 +4', 'antaliya center railway'),
+    ('2021-07-01 18:10:00 +4', 'vnukovo airport russia')
+;
+
+INSERT INTO
+    trip_movement(trip_id, movement_id)
+VALUES
+    (1, 1), (1, 2), (1,3),
+    (2, 4), (2, 5),
+    (3, 6), (3, 7), (3, 8),
+    (4, 9), (4, 10),
+    (5, 11), (5, 12), (5, 13)
 ;
