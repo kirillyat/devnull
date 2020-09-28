@@ -196,8 +196,17 @@ VALUES
 INSERT INTO clients(full_name, sex, email, phone) VALUES
 	('SIDOROV ALEXANDER VLADIMIROVITCH', 'male', 'sidr@yandex.ru', '+70001231212') RETURNING *;
 
-INSERT INTO clients_documents(client_id, international_passport, local_passport, birth_certificate) VALUES
-    (11, '771277112', '213309AAA', NULL); --11
+--INSERT INTO clients_documents(client_id, international_passport, local_passport, birth_certificate) VALUES
+--    (11, '771277112', '213309AAA', NULL); --11
+
+--ДОП ЗАДАНИЕ
+-- добавить к
+WITH id AS(
+    SELECT client_id FROM clients WHERE full_name='SIDOROV ALEXANDER VLADIMIROVITCH'
+), docs AS(
+    SELECT  'USA', 771277112,'213309AAA', NULL
+) INSERT INTO clients_documents(client_id, nationality, international_passport, local_passport, birth_certificate)
+    SELECT * from id CROSS JOIN docs;
 
 INSERT INTO trips(cost, begin_date, end_date) VALUES
 	(100000, '2020-11-14', '2021-12-15')
@@ -215,6 +224,9 @@ INSERT INTO movements(trip_id, departure_time, departure_address) VALUES
     (6,'2021-07-01 11:00:00 +0', 'sochi adler russia'),--15
 	(6,'2021-12-15 13:00:00 +0', 'madrid spain espania')
 	RETURNING *;--16
+
+
+
 
 
 
