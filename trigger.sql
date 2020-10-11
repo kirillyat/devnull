@@ -1,4 +1,8 @@
 -- Тригер для проверки дат отеля в рамках путешествия
+CREATE TRIGGER check_dates
+BEFORE INSERT OR UPDATE on trip_hotel
+FOR EACH ROW
+EXECUTE PROCEDURE assertWrongHotelInterval();
 
 CREATE OR REPLACE FUNCTION assertWrongHotelInterval()
 RETURNS TRIGGER AS $$
@@ -11,17 +15,12 @@ RETURNS TRIGGER AS $$
         END IF;
         RETURN OLD;
     END;
-
 $$ LANGUAGE plpgsql;
 
 
-CREATE TRIGGER check_dates
-BEFORE INSERT OR UPDATE on trip_hotel
-FOR EACH ROW
-EXECUTE PROCEDURE assertWrongHotelInterval();
-
-
+-- USE EXAMPLE
 TABLE trip_hotel;
+
 TABLE trips;
 
 update trip_hotel SET begin_date = '2000-11-14' WHERE trip_id=1 and hotel_id=3 returning *;
