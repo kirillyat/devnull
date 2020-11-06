@@ -1,4 +1,3 @@
-
 -- LAB 3.3
 SET LC_MONETARY = "en_US.UTF-8";
 
@@ -8,11 +7,10 @@ SET LC_MONETARY = "en_US.UTF-8";
 
 CREATE OR REPLACE FUNCTION apartament_average_mark(apart_id apartaments.apartament_id%TYPE) returns numeric AS
     $$
-    WITH apart_books AS (
-        SELECT client_feedback FROM bookings WHERE apartament_id = apart_id
-    )
+    WITH apart_books AS ( SELECT client_feedback FROM bookings WHERE apartament_id = apart_id)
     SELECT avg(stars) FROM (SELECT int4(client_feedback->>'stars') AS stars FROM apart_books) AS marks;
     $$ language sql;
+
 
 select apartament_average_mark(1); --4.5 (1 m 29 s 787 ms)
 
@@ -54,8 +52,7 @@ $$
         IF cost > max_cost THEN
             max_cost = cost;
             book_id = r.bookind_id;
-        end if;
-
+        END IF;
     END LOOP;
     RETURN;
     END;
@@ -93,7 +90,7 @@ CREATE OR REPLACE FUNCTION i_rew(i integer, a apartaments.apartament_id%TYPE) re
     END;
     $$ language plpgsql;
 
-select i_rew(0,18283);
+select i_rew(0,18283); -- Полнотиповое программирование — стиль программирования, отличающийся обширным использованием информации о типах с тем, чтобы механизм проверки согласования типов обеспечил раннее выявление максимального количества всевозможных разновидностей багов.
 
 
 --5
@@ -114,3 +111,26 @@ CREATE OR REPLACE FUNCTION client_all_money(id clients.client_id%TYPE) RETURNS m
 
 select client_all_money(1);-- $7,955.00 [15s]
 
+
+
+--6
+
+drop function chec_price(a apartaments.apartament_id%TYPE);
+
+CREATE OR REPLACE FUNCTION chec_price(a apartaments.apartament_id%TYPE, out rez numeric) as
+$$
+
+    begin
+            select cost_per_day::numeric  into STRICT rez FROM apartaments where apartament_id = a;
+            EXCEPTION
+                when no_data_found THEN
+                 raise exception 'NOT FOUNDddddddd';
+                when too_many_rows then
+                raise exception 'too many rowssss';
+    end;
+$$language plpgsql;
+
+
+select chec_price(1);
+
+select chec_price(-1)
